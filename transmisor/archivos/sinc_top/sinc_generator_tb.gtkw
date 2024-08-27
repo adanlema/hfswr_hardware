@@ -1,0 +1,24 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Aug 21 22:35:08 2024
+[*]
+[dumpfile] "/home/adan-hp/datos/tesis/hfswr_hardware/transmisor/archivos/sinc_generator_tb.vcd"
+[dumpfile_mtime] "Wed Aug 21 22:33:03 2024"
+[dumpfile_size] 155368073
+[savefile] "/home/adan-hp/datos/tesis/hfswr_hardware/transmisor/archivos/sinc_generator_tb.gtkw"
+[timestart] 0
+[size] 1296 704
+[pos] -38 -38
+*-33.000000 3820000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 233
+[signals_width] 165
+[sst_expanded] 1
+[sst_vpaned_height] 180
+@29
+sinc_generator_tb.clk
+@28
+sinc_generator_tb.rst
+sinc_generator_tb.start
+sinc_generator_tb.sinc
+[pattern_trace] 1
+[pattern_trace] 0
