@@ -1,32 +1,33 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Tue Aug 27 01:51:22 2024
+[*] Tue Aug 27 11:41:20 2024
 [*]
-[dumpfile] "/home/adan-hp/datos/tesis/hfswr_hardware/transmisor/archivos/code_top_tb.vcd"
-[dumpfile_mtime] "Tue Aug 27 01:48:24 2024"
-[dumpfile_size] 23085279
-[savefile] "/home/adan-hp/datos/tesis/hfswr_hardware/transmisor/archivos/code_top.gtkw"
+[dumpfile] "/home/adan-hp/datos/tesis/hfswr_hardware/transmisor/archivos/code_top/code_top_tb.vcd"
+[dumpfile_mtime] "Tue Aug 27 11:37:50 2024"
+[dumpfile_size] 23519385
+[savefile] "/home/adan-hp/datos/tesis/hfswr_hardware/transmisor/archivos/code_top/code_top.gtkw"
 [timestart] 0
 [size] 1296 704
-[pos] -38 -38
-*-29.405077 1798000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] -51 -51
+*-30.028145 2200006575 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] code_top_tb.
-[sst_width] 233
-[signals_width] 238
+[sst_width] 463
+[signals_width] 232
 [sst_expanded] 1
 [sst_vpaned_height] 180
 @28
 code_top_tb.clk
 code_top_tb.start
 code_top_tb.rst
+@23
 code_top_tb.codigo[31:0]
+@28
 code_top_tb.sinc
 code_top_tb.codetop1.signal_code
 @8420
 code_top_tb.signal_code[15:0]
-@20001
--
 @20000
+-
 -
 [pattern_trace] 1
 [pattern_trace] 0
