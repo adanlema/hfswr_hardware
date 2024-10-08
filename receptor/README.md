@@ -20,17 +20,16 @@ carpeta **receptor** se ilustra a continuación.
     |   |   ├── bram_conect.v
     |   |   └── enable_slicer.v
     │   └── dsp_top
-    |       ├── ip
-    |       |   ├── dds_compiler_0.xcix
-    |       |   ├── filter_cic.xcix
-    |       |   ├── filter_fir.xcix
-    |       |   ├── fir_compiler_0.xcix
-    |       |   ├── IP_bram_controller_0.xcix
-    |       |   └── mult_gen_cos.xcix   
     |       ├── dsp_top.v
     |       ├── bram_conect.v
     |       ├── enable_slicer.v
     |       └── mixed.v
     |
     └── img
-    ```
+```
+
+Se utilizaron las siguientes *Intelectual Property* de Vivado:
+- DDS Compiler: Para la generación de las portadoras.
+- FIR Compiler: Para el diseño del filtro FIR.
+- CIC Compiler: Para el diseño del filtro encargado de la decimación.
+- Block Memory Generator: Para el buffer de memoria, se lo utilizo en el modo True Dual-Port RAM.

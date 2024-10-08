@@ -22,10 +22,7 @@ carpeta **transmisor** se ilustra a continuación.
     |   |   ├── code_signal.v
     |   |   ├── code_top_tb.v
     |   |   └── sinc_generator.v
-    │   └── tx_top
-    |       ├── ip
-    |       |   ├── oscilador.xcix
-    |       |   └── mezclador.xcix   
+    │   └── tx_top 
     |       ├── tx_radar.v
     |       ├── code_top.v
     |       ├── code_signal.v
@@ -34,4 +31,10 @@ carpeta **transmisor** se ilustra a continuación.
     |       └── sinc_generator.v
     |
     └── img
-    ```
+```
+
+Se utilizaron las siguientes *Intelectual Property* de Vivado:
+- AXI4 Peripheral:  Para el manejo de los registros de control. 
+- DDS Compiler:     Para la generación de la portadora.
+- Multiplier:       Para el diseño del mezclador.
+- PLL:              Para el acondicionamiento del reloj del DAC.
