@@ -1,27 +1,40 @@
-module code_generator (
-    input wire clk,
-    input wire rst,
-    input wire sinc,
-    input wire [31:0] num_dig,
-    input wire [31:0] codigo,
-    input wire [31:0] tiempo_b,
-    output wire out
+module code_generator #(
+    parameter NB_REG = 32
+) (
+    input  wire                  clk,
+    input  wire                  rst,
+    input  wire                  sinc,
+    input  wire [NB_REG - 1 : 0] num_dig,
+    input  wire [NB_REG - 1 : 0] codigo,
+    input  wire [NB_REG - 1 : 0] tiempo_b,
+    output wire                  out
 );
 
+  localparam NB_SIZE = 8;
+  localparam NB_COUNTER = 32;
 
-  reg [31:0] numero = 0;
-  reg [31:0] codigo_tx = 0;
-  reg [31:0] ancho_bit = 0;
+  //////////////////////////////////////////////////////////////////////////////////
+  //      WIRE AND REGISTERS
+  //////////////////////////////////////////////////////////////////////////////////
 
-  reg out_data = 0;
-  reg [7:0] bit_counter = 0;
-  reg [31:0] counter = 0;
+  reg                      out_data = 0;
+  reg [    NB_REG - 1 : 0] numero = 0;
+  reg [    NB_REG - 1 : 0] codigo_tx = 0;
+  reg [    NB_REG - 1 : 0] ancho_bit = 0;
+  reg [   NB_SIZE - 1 : 0] bit_counter = 0;
+  reg [NB_COUNTER - 1 : 0] counter = 0;
+
 
   always @(*) begin
     numero = num_dig;
     codigo_tx = codigo;
     ancho_bit = tiempo_b;
   end
+
+
+  //////////////////////////////////////////////////////////////////////////////////
+  //      LOGIC
+  //////////////////////////////////////////////////////////////////////////////////
 
   always @(posedge clk) begin
     if (!rst) begin
@@ -46,6 +59,10 @@ module code_generator (
       end
     end
   end
+
+  //////////////////////////////////////////////////////////////////////////////////
+  //      OUTPUT
+  //////////////////////////////////////////////////////////////////////////////////
 
   assign out = out_data;
 

@@ -22,37 +22,40 @@
  */
 
 
-module tx_radar (
-    input  [ 1:0] adc_clk_i,
-    input         exp_r_io,
+module tx_radar #(
+    parameter NB_CLK    = 2,
+    parameter NB_OUTPUT = 14,
+    parameter NB_REG    = 32
+) (
+    input  [   NB_CLK - 1 : 0] i_clk_adc,
+    input                      i_rst,
     // REGISTERS MEMORY
-    input         start,
-    input  [31:0] phase,
-    input  [31:0] period,
-    input  [31:0] prt,
-    input  [31:0] codigo,
-    input  [31:0] num_dig,
-    input  [31:0] t_b,
+    input                      start,
+    input  [   NB_REG - 1 : 0] phase,
+    input  [   NB_REG - 1 : 0] period,
+    input  [   NB_REG - 1 : 0] prt,
+    input  [   NB_REG - 1 : 0] codigo,
+    input  [   NB_REG - 1 : 0] num_dig,
+    input  [   NB_REG - 1 : 0] t_b,
     // SIGNAL DAC
-    output [13:0] dac_dat_o,  // DAC combined data
-    output        dac_wrt_o,  // DAC write
-    output        dac_sel_o,  // DAC channel select
-    output        dac_clk_o,  // DAC clock
-    output        dac_rst_o,  // DAC reset
+    output [NB_OUTPUT - 1 : 0] dac_dat_o,  // DAC combined data
+    output                     dac_wrt_o,  // DAC write
+    output                     dac_sel_o,  // DAC channel select
+    output                     dac_clk_o,  // DAC clock
+    output                     dac_rst_o,  // DAC reset
     // CLK and SINCRONISMO
-    output        exp_p_io,
-    output        exp_n_io,
-    output        exp_s_io
+    output                     exp_p_io,
+    output                     exp_n_io,
+    output                     exp_s_io
 );
 
   //////////////////////////////////////////////////////////////////////////////////
   //      WIRE AND REGISTERS
   //////////////////////////////////////////////////////////////////////////////////
   // CLK ADC
-  wire        adc_clk_in;
+  wire        i_clk;
 
   // PLL signals
-  wire        adc_clk_in;
   wire        pll_adc_clk;
   wire        pll_dac_clk_1x;
   wire        pll_dac_clk_2x;
@@ -86,14 +89,14 @@ module tx_radar (
 
   // differential clock input
   IBUFDS i_clk (
-      .I (adc_clk_i[1]),
-      .IB(adc_clk_i[0]),
-      .O (adc_clk_in)
+      .I (i_clk_adc[1]),
+      .IB(i_clk_adc[0]),
+      .O (i_clk)
   );
 
   pll nco_pll (
-      .clk       (adc_clk_in),      // clock
-      .rstn      (exp_r_io),        // reset - active low
+      .clk       (i_clk),           // clock
+      .rstn      (i_rst),           // reset - active low
       .clk_adc   (pll_adc_clk),     // ADC clock
       .clk_dac_1x(pll_dac_clk_1x),  // DAC clock 125MHz
       .clk_dac_2x(pll_dac_clk_2x),  // DAC clock 250MHz
@@ -103,7 +106,7 @@ module tx_radar (
 
   // DAC reset (active high)
   always @(posedge dac_clk_1x) begin
-    dac_rst <= ~exp_r_io | ~pll_locked;
+    dac_rst <= ~i_rst | ~pll_locked;
   end
   BUFG bufg_adc_clk (
       .O(adc_clk),
@@ -129,7 +132,7 @@ module tx_radar (
 
   sinc_generator sinc_gen (
       .clk(adc_clk),
-      .rst(exp_r_io),
+      .rst(i_rst),
       .start(start),
       .PRT_count_wire(prt),
       .T_count_wire(period),
@@ -141,7 +144,7 @@ module tx_radar (
   //////////////////////////////////////////////////////////////////////////////////
   code_top codetop1 (
       .i_clk(adc_clk),
-      .i_rst(exp_r_io),
+      .i_rst(i_rst),
       .i_sinc(sincronismo),
       .i_codigo(codigo),
       .i_numdig(num_dig),
@@ -176,6 +179,7 @@ module tx_radar (
   end
   assign signal_dac = {~signal_acon[13], signal_acon[14-2:0]};
 
+
   //////////////////////////////////////////////////////////////////////////////////
   //      SALIDAS
   //////////////////////////////////////////////////////////////////////////////////      
@@ -185,7 +189,7 @@ module tx_radar (
       .Q (exp_p_io),
       .D1(1'b1),
       .D2(1'b0),
-      .C (adc_clk_in),
+      .C (i_clk),
       .CE(1'b1),
       .R (1'b0),
       .S (1'b0)
@@ -194,7 +198,7 @@ module tx_radar (
       .Q (exp_n_io),
       .D1(1'b0),
       .D2(1'b1),
-      .C (adc_clk_in),
+      .C (i_clk),
       .CE(1'b1),
       .R (1'b0),
       .S (1'b0)
@@ -203,7 +207,7 @@ module tx_radar (
       .Q (exp_s_io),
       .D1(sincronismo),
       .D2(sincronismo),
-      .C (adc_clk_in),
+      .C (i_clk),
       .CE(1'b1),
       .R (1'b0),
       .S (1'b0)

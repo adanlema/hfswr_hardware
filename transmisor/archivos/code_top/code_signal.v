@@ -1,13 +1,22 @@
-module code_signal (
-    input code,
-    input clk,
-    input rst,
-    input sinc,
-    output [15:0] code_out
+module code_signal #(
+    parameter NB_OUTPUT = 16
+) (
+    input                      code,
+    input                      clk,
+    input                      rst,
+    input                      sinc,
+    output [NB_OUTPUT - 1 : 0] code_out
 );
 
+  //////////////////////////////////////////////////////////////////////////////////
+  //      WIRE AND REGISTERS
+  //////////////////////////////////////////////////////////////////////////////////
 
-  reg [15:0] out_data = 0;
+  reg [NB_OUTPUT - 1 : 0] out_data = 0;
+
+  //////////////////////////////////////////////////////////////////////////////////
+  //      LOGIC
+  //////////////////////////////////////////////////////////////////////////////////
 
   always @(posedge clk) begin
     if (!rst) begin
@@ -15,9 +24,9 @@ module code_signal (
     end else begin
       if (sinc) begin
         if (code) begin
-          out_data = 16'b0111111111111111;
+          out_data = {1'b0, {(NB_OUTPUT - 1) {1'b1}}};
         end else begin
-          out_data = 16'b1000000000000000;
+          out_data = {1'b1, {(NB_OUTPUT - 1) {1'b0}}};
         end
       end else begin
         out_data = 0;
@@ -25,5 +34,10 @@ module code_signal (
     end
   end
 
+  //////////////////////////////////////////////////////////////////////////////////
+  //      OUTPUT
+  //////////////////////////////////////////////////////////////////////////////////
+
   assign code_out = out_data;
+
 endmodule

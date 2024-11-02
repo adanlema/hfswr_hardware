@@ -1,33 +1,46 @@
-module code_top (
-    input        i_clk,
-    input        i_rst,
-    input        i_sinc,
-    input [31:0] i_codigo,
-    input [31:0] i_numdig,
-    input [31:0] i_tb,
+module code_top #(
+    parameter NB_REG    = 32,
+    parameter NB_OUTPUT = 16
+) (
+    input                  i_clk,
+    input                  i_rst,
+    input                  i_sinc,
+    input [NB_REG - 1 : 0] i_codigo,
+    input [NB_REG - 1 : 0] i_numdig,
+    input [NB_REG - 1 : 0] i_tb,
 
-    output [15:0] o_signal
+    output [NB_OUTPUT - 1 : 0] o_signal
 );
 
-  // reg | wire
-  wire signal_code;
+  //////////////////////////////////////////////////////////////////////////////////
+  //      WIRE AND REGISTERS
+  //////////////////////////////////////////////////////////////////////////////////
 
-  // instanciacion de los modulos
-  code_generator generador (
+  wire w_code;
+
+  //////////////////////////////////////////////////////////////////////////////////
+  //      INSTANCE MODULES
+  //////////////////////////////////////////////////////////////////////////////////
+
+  code_generator #(
+      .NB_REG(NB_REG)
+  ) generador (
       .clk(i_clk),
       .rst(i_rst),
       .sinc(i_sinc),
       .codigo(i_codigo),
       .num_dig(i_numdig),
       .tiempo_b(i_tb),
-      .out(signal_code)
+      .out(w_code)
   );
 
-  code_signal signal (
+  code_signal #(
+      .NB_OUTPUT(NB_OUTPUT)
+  ) signal (
       .clk(i_clk),
       .rst(i_rst),
       .sinc(i_sinc),
-      .code(signal_code),
+      .code(w_code),
       .code_out(o_signal)
   );
 

@@ -5,19 +5,26 @@ module code_top_tb;
   parameter SIM_TIME = 3 * MS;
   // BARKER 11 - [1],[1],[1],[0],[0],[0],[1],[0],[0],[1],[0]
 
-  reg         clk;
-  reg         rst;
-  reg         start;
-  reg  [31:0] prt;
-  reg  [31:0] period;
-  reg  [31:0] num_dig;
-  reg  [31:0] codigo;
-  reg  [31:0] tb;
-  wire        sinc;
-  wire [15:0] signal_code;
+  // Localparam
+  localparam NB_OUTPUT = 8;
+  localparam NB_REG = 32;
 
-  // Instancia de los módulos bajo prueba
-  sinc_generator sincgen1 (
+  // Wire and Registers
+  reg                      clk;
+  reg                      rst;
+  reg                      start;
+  reg  [   NB_REG - 1 : 0] prt;
+  reg  [   NB_REG - 1 : 0] period;
+  reg  [   NB_REG - 1 : 0] num_dig;
+  reg  [   NB_REG - 1 : 0] codigo;
+  reg  [   NB_REG - 1 : 0] tb;
+  wire                     sinc;
+  wire [NB_OUTPUT - 1 : 0] signal_code;
+
+  // Module Instance
+  sinc_generator #(
+      .NB_REG(NB_REG)
+  ) sincgen1 (
       .clk(clk),
       .rst(rst),
       .start(start),
@@ -26,7 +33,10 @@ module code_top_tb;
       .sinc(sinc)
   );
 
-  code_top codetop1 (
+  code_top #(
+      .NB_REG(NB_REG),
+      .NB_OUTPUT(NB_OUTPUT)
+  ) codetop1 (
       .i_clk(clk),
       .i_rst(rst),
       .i_sinc(sinc),
@@ -54,7 +64,9 @@ module code_top_tb;
     num_dig = 32'd11;
     period  = 32'd270336;  // num_dig * tb
     codigo  = 32'b11100010010;  // barker_11
-    start   = 1;
+    start   = 0;
+    #1000;
+    start = 1;
     #10 rst = 1;
     #SIM_TIME;
     $finish;
